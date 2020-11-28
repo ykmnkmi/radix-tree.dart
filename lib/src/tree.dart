@@ -16,9 +16,11 @@ typedef RadixTreeKVVisitor<T> = void Function(String key, T value);
 @optionalTypeArgs
 class RadixTree<T> extends MapBase<String, T> {
   /// Default constructor.
-  RadixTree(
-      {RadixTreeNode<T> root, this.putValue = RadixTreeUtils.putValue, this.removeValue = RadixTreeUtils.removeValue})
-      : root = root ?? RadixTreeNode<T>('');
+  RadixTree({
+    RadixTreeNode<T> root,
+    this.putValue = RadixTreeUtils.putValue,
+    this.removeValue = RadixTreeUtils.removeValue,
+  }) : root = root ?? RadixTreeNode<T>('');
 
   /// The root node in this tree.
   RadixTreeNode<T> root;
@@ -198,7 +200,8 @@ class RadixTree<T> extends MapBase<String, T> {
   /// Visits the given node of this tree with the given prefix and visitor. Also,
   /// recursively visits the left/right subtrees of this node.
   @optionalTypeArgs
-  void visit(RadixTreeNode<T> node, String prefixAllowed, String prefix, RadixTreeKVVisitor<T> visitor) {
+  void visit(RadixTreeNode<T> node, String prefixAllowed, String prefix,
+      RadixTreeKVVisitor<T> visitor) {
     if (node.hasValue && prefix.startsWith(prefixAllowed)) {
       visitor(prefix, node.value);
     }

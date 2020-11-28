@@ -1,3 +1,6 @@
-## 1.0.0
+## 1.0.1
+- update meta links
+- dartfmt -l 80 -w .
 
-- Initial version, created by Stagehand
+## 1.0.0
+- Initial version

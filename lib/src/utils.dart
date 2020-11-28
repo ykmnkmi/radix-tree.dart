@@ -26,7 +26,8 @@ abstract class RadixTreeUtils {
 
     if (largestPrefix == node.prefix.length && largestPrefix == key.length) {
       node.value = value;
-    } else if (largestPrefix == 0 || (largestPrefix < key.length && largestPrefix >= node.prefix.length)) {
+    } else if (largestPrefix == 0 ||
+        (largestPrefix < key.length && largestPrefix >= node.prefix.length)) {
       final leftOverKey = key.substring(largestPrefix);
       var found = false;
 

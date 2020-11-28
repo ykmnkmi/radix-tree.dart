@@ -1,3 +1,4 @@
+/// A Radix Tree.
 library radix_tree;
 
 export 'src/node.dart';

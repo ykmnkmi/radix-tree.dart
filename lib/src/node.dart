@@ -4,7 +4,8 @@ import 'package:meta/meta.dart';
 
 /// A node in a radix tree.
 @optionalTypeArgs
-class RadixTreeNode<T extends Object> extends IterableBase<RadixTreeNode<T>> implements Comparable<RadixTreeNode<T>> {
+class RadixTreeNode<T extends Object> extends IterableBase<RadixTreeNode<T>>
+    implements Comparable<RadixTreeNode<T>> {
   /// Constructs a node from the given prefix and optional value.
   RadixTreeNode(this.prefix, [this.value]) : childrend = <RadixTreeNode<T>>{};
 
@@ -37,7 +38,10 @@ class RadixTreeNode<T extends Object> extends IterableBase<RadixTreeNode<T>> imp
 
   @override
   bool operator ==(Object other) =>
-      other is RadixTreeNode<T> && prefix == other.prefix && value == other.value && childrend == other.childrend;
+      other is RadixTreeNode<T> &&
+      prefix == other.prefix &&
+      value == other.value &&
+      childrend == other.childrend;
 
   @override
   int compareTo(RadixTreeNode<T> other) {
