@@ -1,5 +1,7 @@
 # Radix Tree
 
+[![pub package](https://img.shields.io/pub/v/radix_tree.svg)](https://pub.dev/packages/radix_tree)
+
 Dart implementation of the [Radix Tree](en.wikipedia.org/wiki/Radix_tree) data
 structure. A radix tree maps strings to values, allowing efficient
 string lookup and prefix queries. This implementation implements the
