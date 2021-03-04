@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 /// A node in a radix tree.
 @optionalTypeArgs
-class RadixTreeNode<T extends Object> extends IterableBase<RadixTreeNode<T>>
+class RadixTreeNode<T> extends IterableBase<RadixTreeNode<T>>
     implements Comparable<RadixTreeNode<T>> {
   /// Constructs a node from the given prefix and optional value.
   RadixTreeNode(this.prefix, [this.value]) : childrend = <RadixTreeNode<T>>{};
@@ -13,7 +13,7 @@ class RadixTreeNode<T extends Object> extends IterableBase<RadixTreeNode<T>>
   String prefix;
 
   /// The value stored at this node.
-  T value;
+  T? value;
 
   /// The children for this node. Note, because we use [LinkedHashSet] here,
   /// traversal of [RadixTree] will be in lexicographical order.
@@ -29,22 +29,19 @@ class RadixTreeNode<T extends Object> extends IterableBase<RadixTreeNode<T>>
 
   @override
   Iterator<RadixTreeNode<T>> get iterator {
-    if (childrend == null) {
-      Iterable<RadixTreeNode<T>>.empty();
-    }
-
     return childrend.iterator;
   }
 
   @override
-  bool operator ==(Object other) =>
-      other is RadixTreeNode<T> &&
-      prefix == other.prefix &&
-      value == other.value &&
-      childrend == other.childrend;
+  bool operator ==(Object other) {
+    return other is RadixTreeNode<T> &&
+        prefix == other.prefix &&
+        value == other.value &&
+        childrend == other.childrend;
+  }
 
   @override
-  int compareTo(RadixTreeNode<T> other) {
+  int compareTo(RadixTreeNode<T?> other) {
     return prefix.compareTo(other.prefix);
   }
 }

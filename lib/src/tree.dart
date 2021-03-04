@@ -14,10 +14,10 @@ typedef RadixTreeKVVisitor<T> = void Function(String key, T value);
 /// Radix trees are String -> T mappings which allow quick lookups
 /// on the strings.
 @optionalTypeArgs
-class RadixTree<T> extends MapBase<String, T> {
+class RadixTree<T> extends MapBase<String, T?> {
   /// Default constructor.
   RadixTree({
-    RadixTreeNode<T> root,
+    RadixTreeNode<T>? root,
     this.putValue = RadixTreeUtils.putValue,
     this.removeValue = RadixTreeUtils.removeValue,
   }) : root = root ?? RadixTreeNode<T>('');
@@ -29,22 +29,20 @@ class RadixTree<T> extends MapBase<String, T> {
   ///
   /// Deafults to [RadixTreeUtils.removeValue].
   @protected
-  void Function<T>(RadixTreeNode<T> node, String key, T value) putValue;
+  void Function<T>(RadixTreeNode<T> node, String key, T? value) putValue;
 
   /// Called from `remove` method to delete value.
   ///
   /// Deafults to [RadixTreeUtils.removeValue].
   @protected
-  T Function<T>(RadixTreeNode<T> node, String key) removeValue;
+  T? Function<T>(RadixTreeNode<T> node, String key) removeValue;
 
   @override
-  Iterable<MapEntry<String, T>> get entries {
-    final entries = <MapEntry<String, T>>[];
+  Iterable<MapEntry<String, T?>> get entries {
+    final entries = <MapEntry<String, T?>>[];
 
-    void visit(String key, T value) {
-      if (value != null) {
-        entries.add(MapEntry<String, T>(key, value));
-      }
+    void visit(String key, T? value) {
+      entries.add(MapEntry<String, T?>(key, value));
     }
 
     visitRoot(visit);
@@ -61,7 +59,7 @@ class RadixTree<T> extends MapBase<String, T> {
   Iterable<String> get keys {
     final keys = <String>[];
 
-    void visit(String key, T value) {
+    void visit(String key, T? value) {
       keys.add(key);
     }
 
@@ -73,7 +71,7 @@ class RadixTree<T> extends MapBase<String, T> {
   int get length {
     var count = 0;
 
-    void visit(String key, T value) {
+    void visit(String key, T? value) {
       ++count;
     }
 
@@ -82,10 +80,10 @@ class RadixTree<T> extends MapBase<String, T> {
   }
 
   @override
-  Iterable<T> get values {
-    final values = <T>[];
+  Iterable<T?> get values {
+    final values = <T?>[];
 
-    void visit(String key, T value) {
+    void visit(String key, T? value) {
       values.add(value);
     }
 
@@ -94,7 +92,7 @@ class RadixTree<T> extends MapBase<String, T> {
   }
 
   @override
-  T operator [](Object keyToCheck) {
+  T? operator [](Object? keyToCheck) {
     if (keyToCheck == null) {
       throw NullThrownError();
     }
@@ -103,20 +101,20 @@ class RadixTree<T> extends MapBase<String, T> {
       throw TypeError();
     }
 
-    T found;
+    T? found;
 
-    void visit(String key, T value) {
+    void visit(String key, T? value) {
       if (key == keyToCheck) {
         found = value;
       }
     }
 
-    visitRootPrefixed(visit, keyToCheck as String);
+    visitRootPrefixed(visit, keyToCheck);
     return found;
   }
 
   @override
-  void operator []=(String key, T value) {
+  void operator []=(String key, T? value) {
     putValue<T>(root, key, value);
   }
 
@@ -126,7 +124,7 @@ class RadixTree<T> extends MapBase<String, T> {
   }
 
   @override
-  bool containsKey(Object keyToCheck) {
+  bool containsKey(Object? keyToCheck) {
     if (keyToCheck == null) {
       throw NullThrownError();
     }
@@ -137,21 +135,21 @@ class RadixTree<T> extends MapBase<String, T> {
 
     var found = false;
 
-    void visit(String key, T value) {
+    void visit(String key, T? value) {
       if (key == keyToCheck) {
         found = true;
       }
     }
 
-    visitRootPrefixed(visit, keyToCheck as String);
+    visitRootPrefixed(visit, keyToCheck);
     return found;
   }
 
   @override
-  bool containsValue(Object val) {
+  bool containsValue(Object? val) {
     var found = false;
 
-    void visit(String key, T value) {
+    void visit(String key, T? value) {
       if (val == value) {
         found = true;
       }
@@ -162,11 +160,11 @@ class RadixTree<T> extends MapBase<String, T> {
   }
 
   /// Gets a list of entries whose associated keys have the given prefix.
-  List<MapEntry<String, T>> getEntriesWithPrefix(String prefix) {
-    final entries = <MapEntry<String, T>>[];
+  List<MapEntry<String, T?>> getEntriesWithPrefix(String prefix) {
+    final entries = <MapEntry<String, T?>>[];
 
-    void visit(String key, T value) {
-      entries.add(MapEntry<String, T>(key, value));
+    void visit(String key, T? value) {
+      entries.add(MapEntry<String, T?>(key, value));
     }
 
     visitRootPrefixed(visit, prefix);
@@ -177,7 +175,7 @@ class RadixTree<T> extends MapBase<String, T> {
   List<String> getKeysWithPrefix(String prefix) {
     final keys = <String>[];
 
-    void visit(String key, T value) {
+    void visit(String key, T? value) {
       keys.add(key);
     }
 
@@ -189,8 +187,10 @@ class RadixTree<T> extends MapBase<String, T> {
   List<T> getValuesWithPrefix(String prefix) {
     final values = <T>[];
 
-    void visit(String key, T value) {
-      values.add(value);
+    void visit(String key, T? value) {
+      if (value != null) {
+        values.add(value);
+      }
     }
 
     visitRootPrefixed(visit, prefix);
@@ -201,7 +201,7 @@ class RadixTree<T> extends MapBase<String, T> {
   /// recursively visits the left/right subtrees of this node.
   @optionalTypeArgs
   void visit(RadixTreeNode<T> node, String prefixAllowed, String prefix,
-      RadixTreeKVVisitor<T> visitor) {
+      RadixTreeKVVisitor<T?> visitor) {
     if (node.hasValue && prefix.startsWith(prefixAllowed)) {
       visitor(prefix, node.value);
     }
@@ -221,7 +221,7 @@ class RadixTree<T> extends MapBase<String, T> {
   /// Traverses this radix tree using the given visitor. Note that the tree
   /// will be traversed in lexicographical order.
   @optionalTypeArgs
-  void visitRoot(RadixTreeKVVisitor<T> visitor) {
+  void visitRoot(RadixTreeKVVisitor<T?> visitor) {
     visit(root, '', '', visitor);
   }
 
@@ -229,12 +229,12 @@ class RadixTree<T> extends MapBase<String, T> {
   /// the given prefix will be visited. Note that the tree will be traversed
   /// in lexicographical order.
   @optionalTypeArgs
-  void visitRootPrefixed(RadixTreeKVVisitor<T> visitor, String prefix) {
+  void visitRootPrefixed(RadixTreeKVVisitor<T?> visitor, String prefix) {
     visit(root, prefix, '', visitor);
   }
 
   @override
-  T remove(Object key) {
+  T? remove(Object? key) {
     if (key == null) {
       throw NullThrownError();
     }
@@ -243,14 +243,12 @@ class RadixTree<T> extends MapBase<String, T> {
       throw TypeError();
     }
 
-    final sKey = key as String;
-
-    if (sKey.isEmpty) {
+    if (key.isEmpty) {
       final value = root.value;
       root.value = null;
       return value;
     }
 
-    return removeValue(root, sKey);
+    return removeValue(root, key);
   }
 }

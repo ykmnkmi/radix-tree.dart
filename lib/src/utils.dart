@@ -21,7 +21,7 @@ abstract class RadixTreeUtils {
 
   /// Put the value with the given key from the subtree rooted at the
   /// given node.
-  static void putValue<T>(RadixTreeNode<T> node, String key, T value) {
+  static void putValue<T>(RadixTreeNode<T> node, String key, T? value) {
     final largestPrefix = largestPrefixLength(key, node.prefix);
 
     if (largestPrefix == node.prefix.length && largestPrefix == key.length) {
@@ -69,8 +69,8 @@ abstract class RadixTreeUtils {
 
   /// Remove the value with the given key from the subtree rooted at the
   /// given node.
-  static T removeValue<T>(RadixTreeNode<T> node, String key) {
-    T result;
+  static T? removeValue<T>(RadixTreeNode<T> node, String key) {
+    T? result;
 
     final childrend = node.childrend.toList();
     var i = 0;
