@@ -1,3 +1,6 @@
+## 1.1.1
+- moves from pedantic to lints package
+
 ## 1.1.0
 - null safety release
 

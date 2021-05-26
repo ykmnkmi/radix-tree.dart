@@ -92,24 +92,24 @@ class RadixTree<T> extends MapBase<String, T?> {
   }
 
   @override
-  T? operator [](Object? keyToCheck) {
-    if (keyToCheck == null) {
+  T? operator [](Object? key) {
+    if (key == null) {
       throw NullThrownError();
     }
 
-    if (keyToCheck is! String) {
+    if (key is! String) {
       throw TypeError();
     }
 
     T? found;
 
-    void visit(String key, T? value) {
-      if (key == keyToCheck) {
-        found = value;
+    void visit(String k, T? v) {
+      if (k == key) {
+        found = v;
       }
     }
 
-    visitRootPrefixed(visit, keyToCheck);
+    visitRootPrefixed(visit, key);
     return found;
   }
 
@@ -124,33 +124,33 @@ class RadixTree<T> extends MapBase<String, T?> {
   }
 
   @override
-  bool containsKey(Object? keyToCheck) {
-    if (keyToCheck == null) {
+  bool containsKey(Object? key) {
+    if (key == null) {
       throw NullThrownError();
     }
 
-    if (keyToCheck is! String) {
+    if (key is! String) {
       throw TypeError();
     }
 
     var found = false;
 
-    void visit(String key, T? value) {
-      if (key == keyToCheck) {
+    void visit(String keyToCheck, T? value) {
+      if (keyToCheck == key) {
         found = true;
       }
     }
 
-    visitRootPrefixed(visit, keyToCheck);
+    visitRootPrefixed(visit, key);
     return found;
   }
 
   @override
-  bool containsValue(Object? val) {
+  bool containsValue(Object? value) {
     var found = false;
 
-    void visit(String key, T? value) {
-      if (val == value) {
+    void visit(String k, T? v) {
+      if (value == v) {
         found = true;
       }
     }
