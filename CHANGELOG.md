@@ -1,3 +1,6 @@
+## 1.1.2
+- update meta links
+
 ## 1.1.1
 - moves from pedantic to lints package
 

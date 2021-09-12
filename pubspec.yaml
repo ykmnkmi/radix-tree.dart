@@ -1,6 +1,6 @@
 name: radix_tree
 description: Dart implementation of the Radix Tree data structure.
-version: 1.1.1
+version: 1.1.2
 repository: https://github.com/ykmnkmi/radix-tree.dart/tree/master/
 issue_tracker: https://github.com/ykmnkmi/radix-tree.dart/issues
 homepage: https://github.com/ykmnkmi/radix-tree.dart
