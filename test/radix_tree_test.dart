@@ -77,6 +77,69 @@ void main() {
       expect(tree.getValuesWithPrefix('asd'), containsAll(const <int>[]));
     });
 
+    test('operator[] Fetch', () {
+      final tree = RadixTree<int>();
+      tree['tes'] = 0;
+      tree['test'] = 1;
+      tree['tent'] = 2;
+      tree['rest'] = 3;
+      tree['tank'] = 4;
+      tree['tan'] = 5;
+      expect(tree, hasLength(equals(6)));
+      expect(tree['tes'], equals(0));
+      expect(tree['test'], equals(1));
+      expect(tree['tent'], equals(2));
+      expect(tree['rest'], equals(3));
+      expect(tree['tank'], equals(4));
+      expect(tree['tan'], equals(5));
+      expect(tree[''], isNull);
+      expect(tree['t'], isNull);
+      expect(tree['te'], isNull);
+      expect(tree['tanke'], isNull);
+      expect(tree['asd'], isNull);
+    });
+
+    test('Contains Key', () {
+      final tree = RadixTree<int>();
+      tree['tes'] = 0;
+      tree['test'] = 1;
+      tree['tent'] = 2;
+      tree['rest'] = 3;
+      tree['tank'] = 4;
+      tree['tan'] = 5;
+      expect(tree, hasLength(equals(6)));
+      expect(() => tree.containsKey(null), throwsA(isA<NullThrownError>()));
+      expect(tree.containsKey('tes'), true);
+      expect(tree.containsKey('test'), true);
+      expect(tree.containsKey('tent'), true);
+      expect(tree.containsKey('rest'), true);
+      expect(tree.containsKey('tank'), true);
+      expect(tree.containsKey('tan'), true);
+      expect(tree.containsKey(''), false);
+      expect(tree.containsKey('t'), false);
+      expect(tree.containsKey('te'), false);
+      expect(tree.containsKey('tanke'), false);
+      expect(tree.containsKey('asd'), false);
+    });
+
+    test('Contains Value', () {
+      final tree = RadixTree<int>();
+      tree[''] = 0;
+      tree['test'] = 1;
+      tree['tent'] = 2;
+      tree['rest'] = 3;
+      tree['tank'] = 4;
+      expect(tree, hasLength(equals(5)));
+      expect(tree.containsValue(null), false);
+      expect(tree.containsValue(0), true);
+      expect(tree.containsValue(1), true);
+      expect(tree.containsValue(2), true);
+      expect(tree.containsValue(3), true);
+      expect(tree.containsValue(4), true);
+      expect(tree.containsValue(5), false);
+      expect(tree.containsValue('test'), false);
+    });
+
     test('Spook', () {
       final tree = RadixTree<int>();
       tree['pook'] = 1;
@@ -109,18 +172,18 @@ void main() {
 
       const hex = '0123456789ABCDEF';
       final random = Random();
-      final bigInts = <BigInt>[];
+      final bigInts = <BigInt>{};
       var i = 100 + random.nextInt(400);
 
       while (i > 0) {
         final bigInt = BigInt.parse(
-            List<String>.generate(20, (index) => hex[random.nextInt(0xF)])
+            List<String>.generate(20, (index) => hex[random.nextInt(0x10)])
                 .join(),
-            radix: 0xF);
+            radix: 0x10);
 
         if (!bigInts.contains(bigInt)) {
           bigInts.add(bigInt);
-          tree[bigInt.toRadixString(0xF)] = bigInt;
+          tree[bigInt.toRadixString(0x10)] = bigInt;
         }
 
         i -= 1;
@@ -129,7 +192,7 @@ void main() {
       expect(tree, hasLength(equals(bigInts.length)));
 
       for (final bigInt in bigInts) {
-        expect(tree, containsPair(bigInt.toRadixString(0xF), equals(bigInt)));
+        expect(tree, containsPair(bigInt.toRadixString(0x10), equals(bigInt)));
       }
 
       expect(tree.values, containsAll(bigInts));
