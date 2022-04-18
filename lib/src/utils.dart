@@ -7,9 +7,11 @@ abstract class RadixTreeUtils {
   /// Finds the length of the largest prefix for two character sequences.
   static int largestPrefixLength(String first, String second) {
     final commonLength = min(first.length, second.length);
+
     for (var i = 0; i < commonLength; ++i) {
       if (first[i] != second[i]) return i;
     }
+
     return commonLength;
   }
 

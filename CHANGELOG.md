@@ -1,3 +1,7 @@
+## 1.2.0
+- issues: [#1](https://github.com/ykmnkmi/radix-tree.dart/issues/1)
+- typos & refactoring
+
 ## 1.1.2
 - update meta links
 
@@ -12,4 +16,4 @@
 - dartfmt -l 80 -w .
 
 ## 1.0.0
-- Initial version
+- initial version

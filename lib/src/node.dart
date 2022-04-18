@@ -15,22 +15,23 @@ class RadixTreeNode<T> extends IterableBase<RadixTreeNode<T>>
   /// The value stored at this node.
   T? value;
 
-  /// The children for this node. Note, because we use [LinkedHashSet] here,
-  /// traversal of [RadixTree] will be in lexicographical order.
+  /// The children for this node.
+  ///
+  /// Note, because we use [LinkedHashSet] here, traversal of [RadixTree]
+  /// will be in lexicographical order.
   Set<RadixTreeNode<T>> childrend;
 
   @override
   int get hashCode => prefix.hashCode ^ value.hashCode ^ childrend.hashCode;
 
-  /// Whether or not this node stores a value. This value is mainly used by
-  /// [RadixTreeKVVisitor] to figure out whether or not this node should
-  /// be visited.
+  /// Whether or not this node stores a value.
+  ///
+  /// This value is mainly used by [RadixTreeKVVisitor] to figure out whether
+  /// or not this node should be visited.
   bool get hasValue => value != null;
 
   @override
-  Iterator<RadixTreeNode<T>> get iterator {
-    return childrend.iterator;
-  }
+  Iterator<RadixTreeNode<T>> get iterator => childrend.iterator;
 
   @override
   bool operator ==(Object other) {

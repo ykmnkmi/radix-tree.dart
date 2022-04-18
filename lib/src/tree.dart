@@ -41,11 +41,11 @@ class RadixTree<T> extends MapBase<String, T?> {
   Iterable<MapEntry<String, T?>> get entries {
     final entries = <MapEntry<String, T?>>[];
 
-    void visit(String key, T? value) {
+    void visitor(String key, T? value) {
       entries.add(MapEntry<String, T?>(key, value));
     }
 
-    visitRoot(visit);
+    visitRoot(visitor);
     return entries;
   }
 
@@ -59,11 +59,11 @@ class RadixTree<T> extends MapBase<String, T?> {
   Iterable<String> get keys {
     final keys = <String>[];
 
-    void visit(String key, T? value) {
+    void visitor(String key, T? value) {
       keys.add(key);
     }
 
-    visitRoot(visit);
+    visitRoot(visitor);
     return keys;
   }
 
@@ -71,11 +71,11 @@ class RadixTree<T> extends MapBase<String, T?> {
   int get length {
     var count = 0;
 
-    void visit(String key, T? value) {
+    void visitor(String key, T? value) {
       ++count;
     }
 
-    visitRoot(visit);
+    visitRoot(visitor);
     return count;
   }
 
@@ -83,11 +83,11 @@ class RadixTree<T> extends MapBase<String, T?> {
   Iterable<T?> get values {
     final values = <T?>[];
 
-    void visit(String key, T? value) {
+    void visitor(String key, T? value) {
       values.add(value);
     }
 
-    visitRoot(visit);
+    visitRoot(visitor);
     return values;
   }
 
@@ -164,11 +164,11 @@ class RadixTree<T> extends MapBase<String, T?> {
   List<MapEntry<String, T?>> getEntriesWithPrefix(String prefix) {
     final entries = <MapEntry<String, T?>>[];
 
-    void visit(String key, T? value) {
+    void visitor(String key, T? value) {
       entries.add(MapEntry<String, T?>(key, value));
     }
 
-    visitRootPrefixed(visit, prefix);
+    visitRootPrefixed(visitor, prefix);
     return entries;
   }
 
@@ -176,11 +176,11 @@ class RadixTree<T> extends MapBase<String, T?> {
   List<String> getKeysWithPrefix(String prefix) {
     final keys = <String>[];
 
-    void visit(String key, T? value) {
+    void visitor(String key, T? value) {
       keys.add(key);
     }
 
-    visitRootPrefixed(visit, prefix);
+    visitRootPrefixed(visitor, prefix);
     return keys;
   }
 
@@ -188,18 +188,17 @@ class RadixTree<T> extends MapBase<String, T?> {
   List<T> getValuesWithPrefix(String prefix) {
     final values = <T>[];
 
-    void visit(String key, T? value) {
+    void visitor(String key, T? value) {
       if (value != null) {
         values.add(value);
       }
     }
 
-    visitRootPrefixed(visit, prefix);
+    visitRootPrefixed(visitor, prefix);
     return values;
   }
 
   /// Visits the given node of this tree with the given key and visitor.
-  @optionalTypeArgs
   void visitKey(RadixTreeNode<T> node, String key, String prefix,
       RadixTreeKVVisitor<T?> visitor) {
     if (node.hasValue && prefix == key) {
@@ -208,6 +207,7 @@ class RadixTree<T> extends MapBase<String, T?> {
     }
 
     final prefixLength = prefix.length;
+
     if (key.length > prefixLength) {
       // Search the children only if there's more key remaining.
       // Unfortunately this is O(|your_alphabet|)
@@ -219,9 +219,9 @@ class RadixTree<T> extends MapBase<String, T?> {
     }
   }
 
-  /// Visits the given node of this tree with the given prefix and visitor. Also,
-  /// recursively visits the left/right subtrees of this node.
-  @optionalTypeArgs
+  /// Visits the given node of this tree with the given prefix and visitor.
+  ///
+  /// Also, recursively visits the left/right subtrees of this node.
   void visit(RadixTreeNode<T> node, String prefixAllowed, String prefix,
       RadixTreeKVVisitor<T?> visitor) {
     if (node.hasValue && prefix.startsWith(prefixAllowed)) {
@@ -229,6 +229,7 @@ class RadixTree<T> extends MapBase<String, T?> {
     }
 
     final prefixLength = prefix.length;
+
     for (final child in node) {
       if (prefixAllowed.length <= prefixLength ||
           child.prefix[0] == prefixAllowed[prefixLength]) {
@@ -237,17 +238,17 @@ class RadixTree<T> extends MapBase<String, T?> {
     }
   }
 
-  /// Traverses this radix tree using the given visitor. Note that the tree
-  /// will be traversed in lexicographical order.
-  @optionalTypeArgs
+  /// Traverses this radix tree using the given visitor.
+  ///
+  /// Note that the tree will be traversed in lexicographical order.
   void visitRoot(RadixTreeKVVisitor<T?> visitor) {
     visit(root, '', '', visitor);
   }
 
-  /// Traverses this radix tree using the given visitor. Only values with
-  /// the given prefix will be visited. Note that the tree will be traversed
-  /// in lexicographical order.
-  @optionalTypeArgs
+  /// Traverses this radix tree using the given visitor.
+  ///
+  /// Only values with the given prefix will be visited. Note that the tree
+  /// will be traversed in lexicographical order.
   void visitRootPrefixed(RadixTreeKVVisitor<T?> visitor, String prefix) {
     visit(root, prefix, '', visitor);
   }

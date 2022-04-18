@@ -5,8 +5,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('Test RadixTree', () {
-    setUp(() {});
-
     test('Largest Prefix', () {
       expect(
           RadixTreeUtils.largestPrefixLength('abcdefg', 'abcdexyz'), equals(5));
