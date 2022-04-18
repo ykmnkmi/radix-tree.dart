@@ -103,13 +103,13 @@ class RadixTree<T> extends MapBase<String, T?> {
 
     T? found;
 
-    void visit(String k, T? v) {
+    void visitor(String k, T? v) {
       if (k == key) {
         found = v;
       }
     }
 
-    visitRootPrefixed(visit, key);
+    visitKey(root, key, '', visitor);
     return found;
   }
 
@@ -135,16 +135,17 @@ class RadixTree<T> extends MapBase<String, T?> {
 
     var found = false;
 
-    void visit(String keyToCheck, T? value) {
+    void visitor(String keyToCheck, T? value) {
       if (keyToCheck == key) {
         found = true;
       }
     }
 
-    visitRootPrefixed(visit, key);
+    visitKey(root, key, '', visitor);
     return found;
   }
 
+  /// Warning: This visits every single node regardless of where the value lies!
   @override
   bool containsValue(Object? value) {
     var found = false;
@@ -197,6 +198,27 @@ class RadixTree<T> extends MapBase<String, T?> {
     return values;
   }
 
+  /// Visits the given node of this tree with the given key and visitor.
+  @optionalTypeArgs
+  void visitKey(RadixTreeNode<T> node, String key, String prefix,
+      RadixTreeKVVisitor<T?> visitor) {
+    if (node.hasValue && prefix == key) {
+      visitor(prefix, node.value);
+      return;
+    }
+
+    final prefixLength = prefix.length;
+    if (key.length > prefixLength) {
+      // Search the children only if there's more key remaining.
+      // Unfortunately this is O(|your_alphabet|)
+      for (final child in node) {
+        if (child.prefix[0] == key[prefixLength]) {
+          return visitKey(child, key, prefix + child.prefix, visitor);
+        }
+      }
+    }
+  }
+
   /// Visits the given node of this tree with the given prefix and visitor. Also,
   /// recursively visits the left/right subtrees of this node.
   @optionalTypeArgs
@@ -206,14 +228,11 @@ class RadixTree<T> extends MapBase<String, T?> {
       visitor(prefix, node.value);
     }
 
+    final prefixLength = prefix.length;
     for (final child in node) {
-      final prefixLength = prefix.length;
-      final newPrefix = prefix + child.prefix;
-
       if (prefixAllowed.length <= prefixLength ||
-          newPrefix.length <= prefixLength ||
-          newPrefix[prefixLength] == prefixAllowed[prefixLength]) {
-        visit(child, prefixAllowed, newPrefix, visitor);
+          child.prefix[0] == prefixAllowed[prefixLength]) {
+        visit(child, prefixAllowed, prefix + child.prefix, visitor);
       }
     }
   }
