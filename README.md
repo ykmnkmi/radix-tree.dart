@@ -2,10 +2,9 @@
 
 [![pub package](https://img.shields.io/pub/v/radix_tree.svg)](https://pub.dev/packages/radix_tree)
 
-Dart implementation of the [Radix Tree](https://en.wikipedia.org/wiki/Radix_tree) data
-structure. A radix tree maps strings to values, allowing efficient
-string lookup and prefix queries. This implementation implements the
-`Map` interface.
+`Map` based Dart implementation of the [Radix Tree][Radix Tree] data structure.
+A radix tree maps strings to values, allowing efficient string lookup and
+prefix queries.
 
 Based on [radix-tree](https://github.com/thegedge/radix-tree).
 
@@ -34,4 +33,5 @@ This project is licensed under the MIT license.
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
+[Radix Tree]: https://en.wikipedia.org/wiki/Radix_tree
 [tracker]: https://github.com/ykmnkmi/radix-tree.dart/issues

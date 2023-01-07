@@ -44,5 +44,6 @@ jobs:
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+        if: matrix.sdk == 'stable'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

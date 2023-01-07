@@ -39,7 +39,7 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   @override
   Iterable<MapEntry<String, T?>> get entries {
-    final entries = <MapEntry<String, T?>>[];
+    var entries = <MapEntry<String, T?>>[];
 
     void visitor(String key, T? value) {
       entries.add(MapEntry<String, T?>(key, value));
@@ -50,14 +50,14 @@ class RadixTree<T> extends MapBase<String, T?> {
   }
 
   @override
-  bool get isEmpty => root.childrend.isEmpty;
+  bool get isEmpty => root.children.isEmpty;
 
   @override
-  bool get isNotEmpty => root.childrend.isNotEmpty;
+  bool get isNotEmpty => root.children.isNotEmpty;
 
   @override
   Iterable<String> get keys {
-    final keys = <String>[];
+    var keys = <String>[];
 
     void visitor(String key, T? value) {
       keys.add(key);
@@ -72,7 +72,7 @@ class RadixTree<T> extends MapBase<String, T?> {
     var count = 0;
 
     void visitor(String key, T? value) {
-      ++count;
+      count += 1;
     }
 
     visitRoot(visitor);
@@ -81,7 +81,7 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   @override
   Iterable<T?> get values {
-    final values = <T?>[];
+    var values = <T?>[];
 
     void visitor(String key, T? value) {
       values.add(value);
@@ -94,7 +94,7 @@ class RadixTree<T> extends MapBase<String, T?> {
   @override
   T? operator [](Object? key) {
     if (key == null) {
-      throw NullThrownError();
+      throw TypeError();
     }
 
     if (key is! String) {
@@ -120,13 +120,13 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   @override
   void clear() {
-    root.childrend.clear();
+    root.children.clear();
   }
 
   @override
   bool containsKey(Object? key) {
     if (key == null) {
-      throw NullThrownError();
+      throw TypeError();
     }
 
     if (key is! String) {
@@ -162,7 +162,7 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   /// Gets a list of entries whose associated keys have the given prefix.
   List<MapEntry<String, T?>> getEntriesWithPrefix(String prefix) {
-    final entries = <MapEntry<String, T?>>[];
+    var entries = <MapEntry<String, T?>>[];
 
     void visitor(String key, T? value) {
       entries.add(MapEntry<String, T?>(key, value));
@@ -174,7 +174,7 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   /// Gets a list of keys with the given prefix.
   List<String> getKeysWithPrefix(String prefix) {
-    final keys = <String>[];
+    var keys = <String>[];
 
     void visitor(String key, T? value) {
       keys.add(key);
@@ -186,7 +186,7 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   /// Gets a list of values whose associated keys have the given prefix.
   List<T> getValuesWithPrefix(String prefix) {
-    final values = <T>[];
+    var values = <T>[];
 
     void visitor(String key, T? value) {
       if (value != null) {
@@ -206,12 +206,12 @@ class RadixTree<T> extends MapBase<String, T?> {
       return;
     }
 
-    final prefixLength = prefix.length;
+    var prefixLength = prefix.length;
 
     if (key.length > prefixLength) {
       // Search the children only if there's more key remaining.
       // Unfortunately this is O(|your_alphabet|)
-      for (final child in node) {
+      for (var child in node) {
         if (child.prefix[0] == key[prefixLength]) {
           return visitKey(child, key, prefix + child.prefix, visitor);
         }
@@ -228,9 +228,9 @@ class RadixTree<T> extends MapBase<String, T?> {
       visitor(prefix, node.value);
     }
 
-    final prefixLength = prefix.length;
+    var prefixLength = prefix.length;
 
-    for (final child in node) {
+    for (var child in node) {
       if (prefixAllowed.length <= prefixLength ||
           child.prefix[0] == prefixAllowed[prefixLength]) {
         visit(child, prefixAllowed, prefix + child.prefix, visitor);
@@ -256,7 +256,7 @@ class RadixTree<T> extends MapBase<String, T?> {
   @override
   T? remove(Object? key) {
     if (key == null) {
-      throw NullThrownError();
+      throw TypeError();
     }
 
     if (key is! String) {
@@ -264,7 +264,7 @@ class RadixTree<T> extends MapBase<String, T?> {
     }
 
     if (key.isEmpty) {
-      final value = root.value;
+      var value = root.value;
       root.value = null;
       return value;
     }

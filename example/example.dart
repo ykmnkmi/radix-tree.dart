@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:radix_tree/radix_tree.dart';
 
 void main(List<String> args) {

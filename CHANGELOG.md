@@ -1,3 +1,7 @@
+## 2.0.0
+- minimal SDK version: 2.18.0
+- refactoring
+
 ## 1.2.0
 - issues: [#1](https://github.com/ykmnkmi/radix-tree.dart/issues/1)
 - typos & refactoring
