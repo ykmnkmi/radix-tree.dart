@@ -23,19 +23,20 @@ class RadixTree<T> extends MapBase<String, T?> {
   }) : root = root ?? RadixTreeNode<T>('');
 
   /// The root node in this tree.
-  RadixTreeNode<T> root;
+  @internal
+  final RadixTreeNode<T> root;
 
   /// Called from `[]=` operator to set value.
   ///
   /// Deafults to [RadixTreeUtils.removeValue].
   @protected
-  void Function<T>(RadixTreeNode<T> node, String key, T? value) putValue;
+  final void Function<T>(RadixTreeNode<T> node, String key, T? value) putValue;
 
   /// Called from `remove` method to delete value.
   ///
   /// Deafults to [RadixTreeUtils.removeValue].
   @protected
-  T? Function<T>(RadixTreeNode<T> node, String key) removeValue;
+  final T? Function<T>(RadixTreeNode<T> node, String key) removeValue;
 
   @override
   Iterable<MapEntry<String, T?>> get entries {
@@ -50,10 +51,14 @@ class RadixTree<T> extends MapBase<String, T?> {
   }
 
   @override
-  bool get isEmpty => root.children.isEmpty;
+  bool get isEmpty {
+    return root.children.isEmpty;
+  }
 
   @override
-  bool get isNotEmpty => root.children.isNotEmpty;
+  bool get isNotEmpty {
+    return root.children.isNotEmpty;
+  }
 
   @override
   Iterable<String> get keys {
@@ -93,10 +98,6 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   @override
   T? operator [](Object? key) {
-    if (key == null) {
-      throw TypeError();
-    }
-
     if (key is! String) {
       throw TypeError();
     }
@@ -125,10 +126,6 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   @override
   bool containsKey(Object? key) {
-    if (key == null) {
-      throw TypeError();
-    }
-
     if (key is! String) {
       throw TypeError();
     }
@@ -199,8 +196,12 @@ class RadixTree<T> extends MapBase<String, T?> {
   }
 
   /// Visits the given node of this tree with the given key and visitor.
-  void visitKey(RadixTreeNode<T> node, String key, String prefix,
-      RadixTreeKVVisitor<T?> visitor) {
+  void visitKey(
+    RadixTreeNode<T> node,
+    String key,
+    String prefix,
+    RadixTreeKVVisitor<T?> visitor,
+  ) {
     if (node.hasValue && prefix == key) {
       visitor(prefix, node.value);
       return;
@@ -211,7 +212,7 @@ class RadixTree<T> extends MapBase<String, T?> {
     if (key.length > prefixLength) {
       // Search the children only if there's more key remaining.
       // Unfortunately this is O(|your_alphabet|)
-      for (var child in node) {
+      for (var child in node.children) {
         if (child.prefix[0] == key[prefixLength]) {
           return visitKey(child, key, prefix + child.prefix, visitor);
         }
@@ -222,15 +223,19 @@ class RadixTree<T> extends MapBase<String, T?> {
   /// Visits the given node of this tree with the given prefix and visitor.
   ///
   /// Also, recursively visits the left/right subtrees of this node.
-  void visit(RadixTreeNode<T> node, String prefixAllowed, String prefix,
-      RadixTreeKVVisitor<T?> visitor) {
+  void visit(
+    RadixTreeNode<T> node,
+    String prefixAllowed,
+    String prefix,
+    RadixTreeKVVisitor<T?> visitor,
+  ) {
     if (node.hasValue && prefix.startsWith(prefixAllowed)) {
       visitor(prefix, node.value);
     }
 
     var prefixLength = prefix.length;
 
-    for (var child in node) {
+    for (var child in node.children) {
       if (prefixAllowed.length <= prefixLength ||
           child.prefix[0] == prefixAllowed[prefixLength]) {
         visit(child, prefixAllowed, prefix + child.prefix, visitor);
@@ -255,10 +260,6 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   @override
   T? remove(Object? key) {
-    if (key == null) {
-      throw TypeError();
-    }
-
     if (key is! String) {
       throw TypeError();
     }

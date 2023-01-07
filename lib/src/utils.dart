@@ -33,7 +33,7 @@ abstract class RadixTreeUtils {
       var found = false;
 
       // Try to find a child node that continues matching the remainder.
-      for (var child in node) {
+      for (var child in node.children) {
         if (child.prefix[0] == leftOverKey[0]) {
           found = true;
           putValue<T>(child, leftOverKey, value);

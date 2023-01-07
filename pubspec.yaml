@@ -1,5 +1,5 @@
 name: radix_tree
-version: 2.0.0
+version: 2.0.1
 description: Map based Dart implementation of the Radix Tree data structure.
 repository: https://github.com/ykmnkmi/radix-tree.dart
 funding:
