@@ -15,7 +15,6 @@ linter:
     - avoid_final_parameters
     - avoid_print
     - avoid_void_async
-    - combinators_ordering
     - directives_ordering
     - prefer_single_quotes
     - unnecessary_final
