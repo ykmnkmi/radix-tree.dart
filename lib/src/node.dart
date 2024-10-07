@@ -2,9 +2,11 @@ import 'dart:collection';
 
 import 'package:meta/meta.dart';
 
+import 'tree.dart';
+
 /// A node in a radix tree.
 @optionalTypeArgs
-class RadixTreeNode<T> implements Comparable<RadixTreeNode<T>> {
+base class RadixTreeNode<T> implements Comparable<RadixTreeNode<T>> {
   /// Constructs a node from the given prefix and optional value.
   @internal
   RadixTreeNode(this.prefix, [this.value, Set<RadixTreeNode<T>>? children])
@@ -27,7 +29,7 @@ class RadixTreeNode<T> implements Comparable<RadixTreeNode<T>> {
 
   @override
   int get hashCode {
-    return prefix.hashCode ^ value.hashCode ^ children.hashCode;
+    return Object.hash(prefix, value, children);
   }
 
   /// Whether or not this node stores a value.

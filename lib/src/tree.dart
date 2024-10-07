@@ -5,7 +5,7 @@ import 'dart:collection';
 import 'package:meta/meta.dart';
 
 import 'node.dart';
-import 'utils.dart';
+import 'utils.dart' as utils;
 
 /// Signature for callbacks passed to [RadixTree.visit], [RadixTree.visitRoot]
 /// and [RadixTree.visitRootPrefixed] methods.
@@ -14,12 +14,12 @@ typedef RadixTreeKVVisitor<T> = void Function(String key, T value);
 /// Radix trees are String -> T mappings which allow quick lookups
 /// on the strings.
 @optionalTypeArgs
-class RadixTree<T> extends MapBase<String, T?> {
+base class RadixTree<T> extends MapBase<String, T?> {
   /// Default constructor.
   RadixTree({
     RadixTreeNode<T>? root,
-    this.putValue = RadixTreeUtils.putValue,
-    this.removeValue = RadixTreeUtils.removeValue,
+    this.putValue = utils.putValue,
+    this.removeValue = utils.removeValue,
   }) : root = root ?? RadixTreeNode<T>('');
 
   /// The root node in this tree.
@@ -28,13 +28,13 @@ class RadixTree<T> extends MapBase<String, T?> {
 
   /// Called from `[]=` operator to set value.
   ///
-  /// Deafults to [RadixTreeUtils.removeValue].
+  /// Deafults to [utils.removeValue].
   @protected
   final void Function<T>(RadixTreeNode<T> node, String key, T? value) putValue;
 
   /// Called from `remove` method to delete value.
   ///
-  /// Deafults to [RadixTreeUtils.removeValue].
+  /// Deafults to [utils.removeValue].
   @protected
   final T? Function<T>(RadixTreeNode<T> node, String key) removeValue;
 

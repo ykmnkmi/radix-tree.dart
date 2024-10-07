@@ -6,15 +6,12 @@ import 'package:test/test.dart';
 void main() {
   group('Test RadixTree', () {
     test('Largest Prefix', () {
-      expect(
-          RadixTreeUtils.largestPrefixLength('abcdefg', 'abcdexyz'), equals(5));
-      expect(
-          RadixTreeUtils.largestPrefixLength('abcdefg', 'abcxyz'), equals(3));
-      expect(RadixTreeUtils.largestPrefixLength('abcdefg', 'abctuvxyz'),
-          equals(3));
-      expect(RadixTreeUtils.largestPrefixLength('abcdefg', ''), equals(0));
-      expect(RadixTreeUtils.largestPrefixLength('', 'abcdexyz'), equals(0));
-      expect(RadixTreeUtils.largestPrefixLength('xyz', 'abcxyz'), equals(0));
+      expect(largestPrefixLength('abcdefg', 'abcdexyz'), equals(5));
+      expect(largestPrefixLength('abcdefg', 'abcxyz'), equals(3));
+      expect(largestPrefixLength('abcdefg', 'abctuvxyz'), equals(3));
+      expect(largestPrefixLength('abcdefg', ''), equals(0));
+      expect(largestPrefixLength('', 'abcdexyz'), equals(0));
+      expect(largestPrefixLength('xyz', 'abcxyz'), equals(0));
     });
 
     test('Empty Tree', () {
@@ -173,10 +170,12 @@ void main() {
       var bigInts = <BigInt>{};
       var i = 100 + random.nextInt(400);
 
+      String getChar(int index) {
+        return hex[random.nextInt(0x10)];
+      }
+
       while (i > 0) {
-        var bigInt = BigInt.parse(
-            List<String>.generate(20, (index) => hex[random.nextInt(0x10)])
-                .join(),
+        var bigInt = BigInt.parse(List<String>.generate(20, getChar).join(),
             radix: 0x10);
 
         if (!bigInts.contains(bigInt)) {
