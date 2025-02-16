@@ -1,5 +1,5 @@
 /// A Radix Tree.
-library radix_tree;
+library;
 
 export 'src/node.dart';
 export 'src/tree.dart';

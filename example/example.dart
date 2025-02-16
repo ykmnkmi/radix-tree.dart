@@ -14,11 +14,14 @@ void main() {
   tree['products/clothing'] = 6;
 
   // Printing all keys
-  print('All keys: ${tree.keys}'); // [home, home/about, home/contact, products, products/electronics, products/clothing]
+  // [home, home/about, home/contact, products, products/electronics, products/clothing]
+  print('All keys: ${tree.keys}');
 
   // Getting values with a specific prefix
-  print('Values with prefix "home": ${tree.getValuesWithPrefix('home')}'); // [1, 2, 3]
-  print('Values with prefix "products": ${tree.getValuesWithPrefix('products')}'); // [4, 5, 6]
+  // [1, 2, 3]
+  print('Values with prefix "home": ${tree.getValuesWithPrefix('home')}');
+  // [4, 5, 6]
+  print('Values with prefix "products": ${tree.getValuesWithPrefix('products')}');
 
   // Checking if a key exists
   print('Contains "home/about": ${tree.containsKey('home/about')}'); // true
@@ -26,10 +29,12 @@ void main() {
 
   // Removing a key
   tree.remove('home/contact');
-  print('All keys after removing "home/contact": ${tree.keys}'); // [home, home/about, products, products/electronics, products/clothing]
+  // [home, home/about, products, products/electronics, products/clothing]
+  print('All keys after removing "home/contact": ${tree.keys}');
 
   // Getting a value by key
-  print('Value for "products/electronics": ${tree['products/electronics']}'); // 5
+  // 5
+  print('Value for "products/electronics": ${tree['products/electronics']}');
 
   // Checking if the tree is empty
   print('Is tree empty: ${tree.isEmpty}'); // false
