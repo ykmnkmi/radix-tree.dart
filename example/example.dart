@@ -21,7 +21,9 @@ void main() {
   // [1, 2, 3]
   print('Values with prefix "home": ${tree.getValuesWithPrefix('home')}');
   // [4, 5, 6]
-  print('Values with prefix "products": ${tree.getValuesWithPrefix('products')}');
+  print(
+    'Values with prefix "products": ${tree.getValuesWithPrefix('products')}',
+  );
 
   // Checking if a key exists
   print('Contains "home/about": ${tree.containsKey('home/about')}'); // true

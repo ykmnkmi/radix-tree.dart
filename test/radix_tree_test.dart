@@ -175,8 +175,10 @@ void main() {
       }
 
       while (i > 0) {
-        var bigInt = BigInt.parse(List<String>.generate(20, getChar).join(),
-            radix: 0x10);
+        var bigInt = BigInt.parse(
+          List<String>.generate(20, getChar).join(),
+          radix: 0x10,
+        );
 
         if (!bigInts.contains(bigInt)) {
           bigInts.add(bigInt);

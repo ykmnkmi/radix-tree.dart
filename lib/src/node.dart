@@ -10,7 +10,7 @@ base class RadixTreeNode<T> implements Comparable<RadixTreeNode<T>> {
   /// Constructs a node from the given prefix and optional value.
   @internal
   RadixTreeNode(this.prefix, [this.value, Set<RadixTreeNode<T>>? children])
-      : children = <RadixTreeNode<T>>{...?children};
+    : children = <RadixTreeNode<T>>{...?children};
 
   /// The prefix at this node.
   @internal
